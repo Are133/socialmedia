@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SocialMedia_Core.Interfaces;
+using SocialMedia_Infraestructure.Data;
+using SocialMedia_Infraestructure.Repositories;
 
 namespace SocialMedia_API
 {
@@ -19,6 +23,11 @@ namespace SocialMedia_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<SocialMediaContext>(cfg =>
+            {
+                cfg.UseSqlServer(Configuration.GetConnectionString("SocialMediaDb"));
+            });
+            services.AddTransient<IPostRepository, PostRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
