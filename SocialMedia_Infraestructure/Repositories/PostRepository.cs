@@ -17,11 +17,17 @@ namespace SocialMedia_Infraestructure.Repositories
             _mediaContext = mediaContext;
                 
         }
-        public async Task<IEnumerable<Publicacion>> GetPosts()
+        public async Task<IEnumerable<Post>> GetPosts()
         {
-            var posts = await _mediaContext.Publicacion.ToListAsync();
+            var posts = await _mediaContext.Posts.ToListAsync();
             await Task.Delay(10);
             return posts;
+        }
+
+        public async Task<Post>GetPost(int id)
+        {
+            var post = await _mediaContext.Posts.FirstOrDefaultAsync(p => p.PostId == id);
+            return post;
         }
 
     }
